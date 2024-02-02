@@ -1,0 +1,170 @@
+// It was needed to have a bridge connection
+interface TV {
+    boolean isEnabled();
+    void enable();
+    void disable();
+    int getVolume();
+    void setVolume(int volume);
+    int getChannel();
+    void setChannel(int channel);
+}
+
+class GeneralTV implements TV {
+    private boolean powerOn;
+    private int volume;
+    private int channel;
+
+    @Override
+    public boolean isEnabled() {
+        return powerOn;
+    }
+
+    @Override
+    public void enable() {
+        powerOn = true;
+    }
+
+    @Override
+    public void disable() {
+        powerOn = false;
+    }
+
+    @Override
+    public int getVolume() {
+        return volume;
+    }
+
+    @Override
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
+    @Override
+    public int getChannel() {
+        return channel;
+    }
+
+    @Override
+    public void setChannel(int channel) {
+        this.channel = channel;
+    }
+}
+
+class SmartTV implements TV {
+    private boolean powerOn;
+    private int volume;
+    private int channel;
+
+    @Override
+    public boolean isEnabled() {
+        return powerOn;
+    }
+
+    @Override
+    public void enable() {
+        powerOn = true;
+    }
+
+    @Override
+    public void disable() {
+        powerOn = false;
+    }
+
+    @Override
+    public int getVolume() {
+        return volume;
+    }
+
+    @Override
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
+    @Override
+    public int getChannel() {
+        return channel;
+    }
+
+    @Override
+    public void setChannel(int channel) {
+        this.channel = channel;
+    }
+
+    public void Youtube() {
+        System.out.println("Youtube");
+    }
+}
+
+interface Remote {
+    void togglePower();
+    void volumeUp();
+    void volumeDown();
+    void channelUp();
+    void channelDown();
+}
+
+class SmartRemote implements Remote {
+    private TV tv;
+
+    SmartRemote(TV tv) {
+        this.tv = tv;
+    }
+
+    @Override
+    public void togglePower() {
+        if (tv.isEnabled()) {
+            tv.disable();
+        } else {
+            tv.enable();
+        }
+    }
+
+    @Override
+    public void volumeUp() {
+        int currentVolume = tv.getVolume();
+        tv.setVolume(currentVolume + 1);
+    }
+
+    @Override
+    public void volumeDown() {
+        int currentVolume = tv.getVolume();
+        tv.setVolume(currentVolume - 1);
+    }
+
+    @Override
+    public void channelUp() {
+        int currentChannel = tv.getChannel();
+        tv.setChannel(currentChannel + 1);
+    }
+
+    @Override
+    public void channelDown() {
+        int currentChannel = tv.getChannel();
+        tv.setChannel(currentChannel - 1);
+    }
+
+    public void showYoutube() {
+        if (tv instanceof SmartTV) {
+            ((SmartTV) tv).Youtube();
+        } else {
+            System.out.println("Youtube not Available");
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+   
+        GeneralTV generalTV = new GeneralTV();
+        SmartTV smartTV = new SmartTV();
+      
+        Remote remote = new SmartRemote(generalTV);
+        SmartRemote smartRemote = new SmartRemote(smartTV);
+
+        remote.togglePower();
+        remote.volumeUp();
+        smartRemote.togglePower();
+        smartRemote.volumeUp();
+        smartRemote.showYoutube();
+    }
+}
